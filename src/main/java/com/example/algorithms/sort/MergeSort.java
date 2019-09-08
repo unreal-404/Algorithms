@@ -1,6 +1,7 @@
 package com.example.algorithms.sort;
 
 public class MergeSort {
+    //原始归并排序
     public static Integer[] defaultSort(Integer[] numbers,Integer prevIndex,Integer lastIndex){
         if(prevIndex < lastIndex){
             Integer middleIndex = (prevIndex + lastIndex)/2;
@@ -44,6 +45,33 @@ public class MergeSort {
         }
         return numbers;
     }
+    //归并排序嵌套插入排序，节约空间开销
+    public static Integer[] mergeSortByInsert(Integer[] numbers,Integer prevIndex,Integer lastIndex){
+        if(prevIndex < lastIndex){
+            Integer middleIndex = (prevIndex + lastIndex)/2;
+            mergeSortByInsert(numbers,prevIndex,middleIndex);
+            mergeSortByInsert(numbers,middleIndex+1,lastIndex);
+            insert(numbers,prevIndex,middleIndex,lastIndex);
+        }
+        return numbers;
+    }
+
+    private static Integer[] insert(Integer[] numbers,Integer prevIndex,Integer middleIndex,Integer lastIndex){
+        if (lastIndex - prevIndex <= 0){
+            return numbers;
+        }
+        for(int i = middleIndex+1;i<=lastIndex;i++){
+            Integer temp = numbers[i];
+            int currentIndex = i;
+            while(currentIndex > prevIndex && temp < numbers[currentIndex-1]){
+                numbers[currentIndex] = numbers[currentIndex - 1];
+                currentIndex--;
+            }
+            numbers[currentIndex] = temp;
+
+        }
+        return numbers;
+    }
 
     public static void main(String[] args) {
         Integer [] numbers = {5,2,4,6,1,3,9,7,8};
@@ -52,7 +80,7 @@ public class MergeSort {
             System.out.print(" "+num);
         }
         System.out.println();
-        numbers = defaultSort(numbers,0,numbers.length-1);
+        numbers = mergeSortByInsert(numbers,0,numbers.length-1);
         System.out.print("排序后:");
         for (Integer num: numbers) {
             System.out.print(" "+num);
