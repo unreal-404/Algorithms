@@ -6,7 +6,7 @@ public class SelectionSort {
         if(numbers.length <= 1){
             return numbers;
         }
-        for(int i =0;i<numbers.length;i++){
+        for(int i =0;i<numbers.length-1;i++){
             int min = i;
             int minNum = numbers[i];
             for(int j = i+1;j<numbers.length;j++){
